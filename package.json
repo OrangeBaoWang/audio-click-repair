@@ -1,0 +1,28 @@
+{
+  "name": "audio-click-repair",
+  "description": "Fix clicks in audio automatically.",
+  "version": "0.0.1",
+  "author": "Joseph Weidinger",
+  "dependencies": {
+    "@types/node": "^8.0.7",
+    "@types/react": "15.0.21",
+    "@types/react-dom": "0.14.23",
+    "gatsby": "^1.9.119",
+    "gatsby-plugin-react-helmet": "^1.0.8",
+    "gatsby-plugin-typescript": "^1.4.10"
+  },
+  "keywords": [
+    "audio, click, repair"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "start": "gatsby develop",
+    "prettier": "prettier --config .prettierrc --write 'src/**/*.{js,jsx,ts,tsx,scss}'"
+  },
+  "devDependencies": {
+    "gatsby-link": "^1.6.46",
+    "gatsby-plugin-sass": "^1.0.26",
+    "prettier": "^1.8.2"
+  }
+}
