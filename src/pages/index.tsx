@@ -1,21 +1,27 @@
 import * as React from 'react'
 import * as Dropzone from 'react-dropzone'
 import * as WavDecoder from 'wav-decoder'
-import { DecodedWavType, DecoratedDecodedWavType } from '../common/type'
+import {
+  DecodedWavType,
+  DecoratedDecodedWavType,
+  ProblemAreaType
+} from '../common/type'
 import Spectrogram from '../spectrogram'
-import FFTProcessor from '../common/fft'
-import { bufferSize, overlap } from '../common/constants'
+import { overlap } from '../common/constants'
 import { getFFTsForAllChannels } from '../common/helpers'
+import ProblemAreaFinder from '../problem-area-finder'
 
 interface IndexState {
   decoratedDecodedWav: DecoratedDecodedWavType | null
+  problemAreas: ProblemAreaType[] | null
 }
 
 export default class extends React.Component<any, IndexState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      decoratedDecodedWav: null
+      decoratedDecodedWav: null,
+      problemAreas: null
     }
   }
 
@@ -44,7 +50,13 @@ export default class extends React.Component<any, IndexState> {
             overlap
           }
         }
-        this.setState({ decoratedDecodedWav })
+
+        const problemAreaFinder = new ProblemAreaFinder(overlap)
+        const problemAreas = problemAreaFinder.determineProblemAreas(
+          decoratedDecodedWav
+        )
+
+        this.setState({ decoratedDecodedWav, problemAreas })
       })
     }
     reader.onabort = () => console.log('file reading was aborted')
@@ -54,9 +66,12 @@ export default class extends React.Component<any, IndexState> {
   }
 
   private renderSpectrogram(): JSX.Element | null {
-    const { decoratedDecodedWav } = this.state
-    return decoratedDecodedWav ? (
-      <Spectrogram decoratedDecodedWav={decoratedDecodedWav} />
+    const { decoratedDecodedWav, problemAreas } = this.state
+    return decoratedDecodedWav && problemAreas ? (
+      <Spectrogram
+        decoratedDecodedWav={decoratedDecodedWav}
+        problemAreas={problemAreas}
+      />
     ) : null
   }
 

@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { DecoratedDecodedWavType } from './common/type'
+import { DecoratedDecodedWavType, ProblemAreaType } from './common/type'
 import { fftSize } from './common/constants'
 
 const steps = 275
 
 export interface SpectrogramProps {
   decoratedDecodedWav: DecoratedDecodedWavType
+  problemAreas?: ProblemAreaType[]
 }
 
 export interface SpectrogramState {}

@@ -13,3 +13,9 @@ export interface DecodedWavType {
 export interface DecoratedDecodedWavType extends DecodedWavType {
   fftObj: FFTType
 }
+
+export interface ProblemAreaType {
+  start: number
+  end: number
+  channel: number
+}
