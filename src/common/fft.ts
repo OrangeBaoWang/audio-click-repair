@@ -1,6 +1,6 @@
 import { ComplexArray } from 'jsfft'
 
-export default class FftBatchProcessor {
+export default class FFTProcessor {
   static fft(arr: Float32Array): Float32Array {
     const arrLength: number = arr.length
     return new ComplexArray(arrLength)
@@ -14,6 +14,6 @@ export default class FftBatchProcessor {
   }
 
   static batchFft(arrays: Float32Array[]): Float32Array[] {
-    return arrays.map((arr: Float32Array) => FftBatchProcessor.fft(arr))
+    return arrays.map((arr: Float32Array) => FFTProcessor.fft(arr))
   }
 }

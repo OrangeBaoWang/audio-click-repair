@@ -1,20 +1,21 @@
 import * as React from 'react'
 import * as Dropzone from 'react-dropzone'
 import * as WavDecoder from 'wav-decoder'
-import { DecodedWavType } from '../common/type'
+import { DecodedWavType, DecoratedDecodedWavType } from '../common/type'
 import Spectrogram from '../spectrogram'
 import FFTProcessor from '../common/fft'
-import { bufferSize } from '../common/constants'
+import { bufferSize, overlap } from '../common/constants'
+import { getFFTsForAllChannels } from '../common/helpers'
 
 interface IndexState {
-  decodedWav: DecodedWavType | null
+  decoratedDecodedWav: DecoratedDecodedWavType | null
 }
 
 export default class extends React.Component<any, IndexState> {
   constructor(props: any) {
     super(props)
     this.state = {
-      decodedWav: null
+      decoratedDecodedWav: null
     }
   }
 
@@ -30,29 +31,20 @@ export default class extends React.Component<any, IndexState> {
         if (data.numberOfChannels > 2) {
           throw 'Does not support more than 2 channels'
         }
-        const overlap = 100
 
-        const fftsForAllChannels: Float32Array[][] = []
-        data.channelData.forEach(data => {
-          let currentIndex = 0
-          const ffts: Float32Array[] = []
-          while (currentIndex + bufferSize < data.length) {
-            const fft = FFTProcessor.fft(
-              data.slice(currentIndex, currentIndex + bufferSize)
-            )
-            ffts.push(fft)
-            currentIndex += overlap
-          }
-          fftsForAllChannels.push(ffts)
-        })
-        const decodedWav = {
+        const fftsForAllChannels: Float32Array[][] = getFFTsForAllChannels(
+          data.channelData,
+          overlap
+        )
+
+        const decoratedDecodedWav = {
           ...data,
           fftObj: {
             fftsForAllChannels,
             overlap
           }
         }
-        this.setState({ decodedWav })
+        this.setState({ decoratedDecodedWav })
       })
     }
     reader.onabort = () => console.log('file reading was aborted')
@@ -62,8 +54,10 @@ export default class extends React.Component<any, IndexState> {
   }
 
   private renderSpectrogram(): JSX.Element | null {
-    const { decodedWav } = this.state
-    return decodedWav ? <Spectrogram decodedWav={decodedWav} /> : null
+    const { decoratedDecodedWav } = this.state
+    return decoratedDecodedWav ? (
+      <Spectrogram decoratedDecodedWav={decoratedDecodedWav} />
+    ) : null
   }
 
   public render() {
