@@ -1,8 +1,8 @@
-import React, { createElement } from 'react'
-import PropTypes from 'prop-types'
-import loader, { publicLoader } from './loader'
-import emitter from './emitter'
-import { apiRunner } from './api-runner-browser'
+import React, { createElement } from "react"
+import PropTypes from "prop-types"
+import loader, { publicLoader } from "./loader"
+import emitter from "./emitter"
+import { apiRunner } from "./api-runner-browser"
 
 const DefaultLayout = ({ children }) => <div>{children()}</div>
 
@@ -18,17 +18,19 @@ class ComponentRenderer extends React.Component {
     if (!loader.getPage(location.pathname)) {
       location = Object.assign({}, location, {
         ...location,
-        pathname: `/404.html`
+        pathname: `/404.html`,
       })
     }
 
     this.state = {
       location,
-      pageResources: loader.getResourcesForPathname(props.location.pathname)
+      pageResources: loader.getResourcesForPathname(props.location.pathname),
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    // During development, always pass a component's JSON through so graphql
+    // updates go through.
     if (process.env.NODE_ENV !== `production`) {
       if (
         nextProps &&
@@ -51,14 +53,14 @@ class ComponentRenderer extends React.Component {
           pageResources => {
             this.setState({
               location: nextProps.location,
-              pageResources
+              pageResources,
             })
           }
         )
       } else {
         this.setState({
           location: nextProps.location,
-          pageResources
+          pageResources,
         })
       }
     }
@@ -116,7 +118,7 @@ class ComponentRenderer extends React.Component {
   render() {
     const pluginResponses = apiRunner(`replaceComponentRenderer`, {
       props: { ...this.props, pageResources: this.state.pageResources },
-      loader: publicLoader
+      loader: publicLoader,
     })
     const replacementComponent = pluginResponses[0]
     // If page.
@@ -127,7 +129,7 @@ class ComponentRenderer extends React.Component {
           createElement(this.state.pageResources.component, {
             key: this.props.location.pathname,
             ...this.props,
-            ...this.state.pageResources.json
+            ...this.state.pageResources.json,
           })
         )
       } else {
@@ -146,7 +148,7 @@ class ComponentRenderer extends React.Component {
               this.state.pageResources && this.state.pageResources.layout
                 ? this.state.pageResources.layout
                 : `DefaultLayout`,
-            ...this.props
+            ...this.props,
           }
         )
       )
@@ -159,7 +161,7 @@ class ComponentRenderer extends React.Component {
 ComponentRenderer.propTypes = {
   page: PropTypes.bool,
   layout: PropTypes.bool,
-  location: PropTypes.object
+  location: PropTypes.object,
 }
 
 export default ComponentRenderer

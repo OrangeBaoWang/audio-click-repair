@@ -8,7 +8,7 @@
       "component": "/Users/josephweidinger/git/audio-click-repair/.cache/dev-404-page.js",
       "componentChunkName": "component---cache-dev-404-page-js",
       "context": {},
-      "updatedAt": 1534622387936,
+      "updatedAt": 1534629025254,
       "pluginCreator___NODE": "Plugin dev-404-page",
       "pluginCreatorId": "Plugin dev-404-page",
       "componentPath": "/Users/josephweidinger/git/audio-click-repair/.cache/dev-404-page.js",
@@ -17,7 +17,7 @@
       "children": [],
       "internal": {
         "type": "SitePage",
-        "contentDigest": "94f7d6619458d3ec48984e4acff5ff5d",
+        "contentDigest": "67958da839c7531aaca683e4e658bad7",
         "owner": "internal-data-bridge"
       }
     },
@@ -465,26 +465,42 @@
             "version": "^1.9.119"
           },
           {
-            "name": "gatsby-link",
-            "version": "^1.6.28"
-          },
-          {
             "name": "gatsby-plugin-react-helmet",
             "version": "^1.0.8"
           },
           {
             "name": "gatsby-plugin-typescript",
             "version": "^1.4.10"
+          },
+          {
+            "name": "react-dropzone",
+            "version": "^4.1.3"
+          },
+          {
+            "name": "wav-decoder",
+            "version": "^1.3.0"
           }
         ],
         "devDependencies": [
+          {
+            "name": "gatsby-link",
+            "version": "^1.6.46"
+          },
           {
             "name": "gatsby-plugin-sass",
             "version": "^1.0.26"
           },
           {
+            "name": "jsfft",
+            "version": "0.0.3"
+          },
+          {
             "name": "prettier",
             "version": "^1.8.2"
+          },
+          {
+            "name": "typescript",
+            "version": "^3.0.1"
           }
         ],
         "peerDependencies": [],
@@ -507,12 +523,12 @@
       "host": "0.0.0.0",
       "pathPrefix": "",
       "polyfill": true,
-      "buildTime": "2018-08-18T19:59:44.910Z",
+      "buildTime": "2018-08-18T21:50:22.591Z",
       "id": "Site",
       "parent": "SOURCE",
       "children": [],
       "internal": {
-        "contentDigest": "89c4c68066cbb14004660bd48de78515",
+        "contentDigest": "fddecb1183c26b4fb0cf96c17ae3c3d5",
         "type": "Site",
         "owner": "internal-data-bridge"
       }
@@ -525,7 +541,7 @@
       "component": "/Users/josephweidinger/git/audio-click-repair/src/pages/404.tsx",
       "componentChunkName": "component---src-pages-404-tsx",
       "context": {},
-      "updatedAt": 1534622387947,
+      "updatedAt": 1534629025264,
       "pluginCreator___NODE": "Plugin component-page-creator",
       "pluginCreatorId": "Plugin component-page-creator",
       "componentPath": "/Users/josephweidinger/git/audio-click-repair/src/pages/404.tsx",
@@ -534,7 +550,7 @@
       "children": [],
       "internal": {
         "type": "SitePage",
-        "contentDigest": "21a40d1d8c9afcdd433e0ab85f670fb6",
+        "contentDigest": "c606e354d79f1a9ad062ada2047c3248",
         "owner": "internal-data-bridge"
       }
     },
@@ -546,7 +562,7 @@
       "component": "/Users/josephweidinger/git/audio-click-repair/src/pages/index.tsx",
       "componentChunkName": "component---src-pages-index-tsx",
       "context": {},
-      "updatedAt": 1534622387948,
+      "updatedAt": 1534629025266,
       "pluginCreator___NODE": "Plugin component-page-creator",
       "pluginCreatorId": "Plugin component-page-creator",
       "componentPath": "/Users/josephweidinger/git/audio-click-repair/src/pages/index.tsx",
@@ -555,7 +571,7 @@
       "children": [],
       "internal": {
         "type": "SitePage",
-        "contentDigest": "f1f989c931f045e8499240a3bf25b0d9",
+        "contentDigest": "308b3a0a374ae6dff5b82368dc0c83bc",
         "owner": "internal-data-bridge"
       }
     },
@@ -567,7 +583,7 @@
       "component": "/Users/josephweidinger/git/audio-click-repair/src/pages/page-2.tsx",
       "componentChunkName": "component---src-pages-page-2-tsx",
       "context": {},
-      "updatedAt": 1534622387949,
+      "updatedAt": 1534629025267,
       "pluginCreator___NODE": "Plugin component-page-creator",
       "pluginCreatorId": "Plugin component-page-creator",
       "componentPath": "/Users/josephweidinger/git/audio-click-repair/src/pages/page-2.tsx",
@@ -576,7 +592,7 @@
       "children": [],
       "internal": {
         "type": "SitePage",
-        "contentDigest": "4eab4df6b715cacc27a5e32438e53565",
+        "contentDigest": "47a0feff60a30f363c643c281553c2dd",
         "owner": "internal-data-bridge"
       }
     },
@@ -588,7 +604,7 @@
       "component": "/Users/josephweidinger/git/audio-click-repair/src/pages/404.tsx",
       "componentChunkName": "component---src-pages-404-tsx",
       "context": {},
-      "updatedAt": 1534622387952,
+      "updatedAt": 1534629025271,
       "pluginCreator___NODE": "Plugin prod-404",
       "pluginCreatorId": "Plugin prod-404",
       "componentPath": "/Users/josephweidinger/git/audio-click-repair/src/pages/404.tsx",
@@ -597,21 +613,17 @@
       "children": [],
       "internal": {
         "type": "SitePage",
-        "contentDigest": "9fc52bbcef07b99c82f5ccc01c7c7d91",
+        "contentDigest": "ce885a33ca4dea7cf97a1759cd259384",
         "owner": "internal-data-bridge"
       }
     }
   },
   "status": {
     "plugins": {},
-    "PLUGINS_HASH": "fea52b87824832aaa19fe0fcac5ccc59"
+    "PLUGINS_HASH": "515431848ba5f3b4a65c1a16e8e756c2"
   },
   "componentDataDependencies": {
-    "nodes": {
-      "Site": [
-        "/"
-      ]
-    },
+    "nodes": {},
     "connections": {
       "SitePage": [
         "/dev-404-page/"

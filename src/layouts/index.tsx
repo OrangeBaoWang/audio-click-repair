@@ -26,7 +26,7 @@ const Header = () => (
             textDecoration: 'none'
           }}
         >
-          Gatsby
+          Audio Click Repair
         </Link>
       </h1>
     </div>

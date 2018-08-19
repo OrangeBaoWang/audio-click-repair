@@ -1,1 +1,3 @@
-declare const graphql: (query: TemplateStringsArray) => void
+declare module 'wav-decoder'
+declare module 'react-dropzone'
+declare module 'jsfft'
