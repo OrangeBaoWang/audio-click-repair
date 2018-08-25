@@ -3,10 +3,12 @@ import { DecoratedDecodedWavType, ProblemAreaType } from './common/type'
 import { fftSize } from './common/constants'
 
 const steps = 275
+const predictionHeight = 15
 
 export interface SpectrogramProps {
   decoratedDecodedWav: DecoratedDecodedWavType
-  problemAreas?: ProblemAreaType[]
+  problemAreas?: ProblemAreaType[] | null
+  predictions?: number[][] | null
 }
 
 export interface SpectrogramState {}
@@ -82,17 +84,37 @@ export default class Spectrogram extends React.Component<
         ctx.stroke()
       }
     )
+    this.renderPredictions()
+  }
+
+  private renderPredictions(): void {
+    const { decoratedDecodedWav, predictions } = this.props
+    if (!predictions) return
+    const ctx = this.refs.canvas.getContext('2d')
+    const baseHeight = fftSize * decoratedDecodedWav.numberOfChannels
+    predictions.forEach((maxes, channelNumber) => {
+      const y = baseHeight + channelNumber * predictionHeight
+      maxes.forEach((max, i) => {
+        ctx.fillStyle = this.getColor(max / 500)
+        ctx.fillRect(i, y, 1, 15)
+      })
+    })
   }
 
   public render() {
-    const { decoratedDecodedWav } = this.props
-    console.log('decoratedDecodedWav', decoratedDecodedWav)
+    const { decoratedDecodedWav, predictions } = this.props
+    const baseHeight = fftSize * decoratedDecodedWav.numberOfChannels
+    const height = !!predictions
+      ? baseHeight + predictionHeight * decoratedDecodedWav.numberOfChannels
+      : baseHeight
+    console.log('baseHeight', baseHeight)
+    console.log('height', height)
     return (
       <div>
         <canvas
           ref="canvas"
           width={decoratedDecodedWav.length}
-          height={fftSize * decoratedDecodedWav.numberOfChannels}
+          height={height}
         />
       </div>
     )

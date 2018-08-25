@@ -20,13 +20,31 @@
   "scripts": {
     "build": "gatsby build",
     "start": "gatsby develop",
+    "test": "npm run lint && jest -t",
+    "test:dev": "jest --watchAll -t",
+    "test:coverage": "jest -t --coverage",
     "prettier": "prettier --config .prettierrc --write 'src/**/*.{js,jsx,ts,tsx,scss}'"
   },
+  "jest": {
+    "setupFiles": [],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/src/.*\\.test.(ts|js)$"
+  },
   "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "autocorrelation": "0.0.5",
     "gatsby-link": "^1.6.46",
     "gatsby-plugin-sass": "^1.0.26",
+    "jest": "^23.5.0",
     "jsfft": "0.0.3",
     "prettier": "^1.8.2",
+    "ts-jest": "^23.1.4",
     "typescript": "^3.0.1"
   }
 }

@@ -8,12 +8,17 @@ import {
 } from '../common/type'
 import Spectrogram from '../spectrogram'
 import { overlap } from '../common/constants'
-import { getFFTsForAllChannels } from '../common/helpers'
+import {
+  getFFTsForAllChannels,
+  getAveragedFfts,
+  findTop20
+} from '../common/helpers'
 import ProblemAreaFinder from '../problem-area-finder'
 
 interface IndexState {
   decoratedDecodedWav: DecoratedDecodedWavType | null
   problemAreas: ProblemAreaType[] | null
+  predictions: number[][] | null
 }
 
 export default class extends React.Component<any, IndexState> {
@@ -21,7 +26,8 @@ export default class extends React.Component<any, IndexState> {
     super(props)
     this.state = {
       decoratedDecodedWav: null,
-      problemAreas: null
+      problemAreas: null,
+      predictions: null
     }
   }
 
@@ -50,13 +56,20 @@ export default class extends React.Component<any, IndexState> {
             overlap
           }
         }
+        console.log(decoratedDecodedWav.channelData)
+        findTop20(decoratedDecodedWav.channelData)
+        // const averagedFftsForAllChannels: Float32Array[][] = getAveragedFfts(
+        //   decoratedDecodedWav.fftObj
+        // )
+
+        // decoratedDecodedWav.fftObj.fftsForAllChannels = averagedFftsForAllChannels
 
         const problemAreaFinder = new ProblemAreaFinder(overlap)
-        const problemAreas = problemAreaFinder.determineProblemAreas(
+        const predictions = problemAreaFinder.determineProblemAreas(
           decoratedDecodedWav
         )
 
-        this.setState({ decoratedDecodedWav, problemAreas })
+        this.setState({ decoratedDecodedWav, predictions })
       })
     }
     reader.onabort = () => console.log('file reading was aborted')
@@ -66,11 +79,12 @@ export default class extends React.Component<any, IndexState> {
   }
 
   private renderSpectrogram(): JSX.Element | null {
-    const { decoratedDecodedWav, problemAreas } = this.state
-    return decoratedDecodedWav && problemAreas ? (
+    const { decoratedDecodedWav, problemAreas, predictions } = this.state
+    return decoratedDecodedWav && predictions ? (
       <Spectrogram
         decoratedDecodedWav={decoratedDecodedWav}
         problemAreas={problemAreas}
+        predictions={predictions}
       />
     ) : null
   }
