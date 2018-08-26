@@ -1,6 +1,6 @@
 import { bufferSize } from './constants'
 import FFTProcessor from './fft'
-import { FFTType } from './type'
+import { FFTType, PointOfInterestType } from './type'
 
 export function getFFTsForAllChannels(
   channelData: Float32Array[],
@@ -76,18 +76,50 @@ export function transpose(a: Float32Array[]): number[][] {
   return Object.keys(a[0]).map((c: any) => a.map((r: any) => r[c]))
 }
 
-export function findTop20(channelData: Float32Array[]): void {
+export function getTopPointsOfInterest(
+  channelData: Float32Array[]
+): PointOfInterestType[] {
+  let pointsOfInterest: PointOfInterestType[] = []
   channelData.forEach((channel: Float32Array, i: number) => {
+    const win: any = window
+    win[`channel${i}`] = channel
     const len = channel.length
-    const topList = new TopList(10)
-    for (let i = 1; i < len; i++) {
+    const topList = new TopList(9999999)
+    const halfSpan = 3
+    for (let i = 1 + halfSpan; i < len; i++) {
+      if (i % 1000 === 0) console.log(i)
+
       const diff = Math.abs(channel[i] - channel[i - 1])
-      if (topList.valueCanEnter(diff)) {
+      if (
+        containsAnException(
+          Array.from(channel).slice(i - halfSpan, i + halfSpan)
+        )
+      ) {
         topList.insert(diff, i)
       }
     }
-    topList.print()
+    // topList.print()
+    pointsOfInterest = [
+      ...pointsOfInterest,
+      ...topList
+        .getList()
+        .map(item => ({ channel: i, time: item.index / 44100 }))
+    ]
   })
+  return pointsOfInterest
+}
+
+export function containsAnException(arr: number[]): boolean {
+  const differences = getDifferenceArray(arr)
+  const gracePercent = 0.9
+  const avg = getAverage(differences)
+  return differences.some(num => num >= avg + avg * gracePercent)
+}
+
+export function getDifferenceArray(arr: number[]): number[] {
+  return arr
+    .map((num, i) => (i === 0 ? 0 : Math.abs(num - arr[i - 1])))
+    .slice(1)
 }
 
 type TopItem = {
@@ -124,5 +156,9 @@ class TopList {
     this.list.forEach(({ value, index }) => {
       console.log(`diff of ${value} at ${index} (time: ${index / sampleRate})`)
     })
+  }
+
+  public getList(): TopItem[] {
+    return this.list
   }
 }

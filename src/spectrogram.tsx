@@ -1,14 +1,19 @@
 import * as React from 'react'
-import { DecoratedDecodedWavType, ProblemAreaType } from './common/type'
+import {
+  DecoratedDecodedWavType,
+  ProblemAreaType,
+  PointOfInterestType
+} from './common/type'
 import { fftSize } from './common/constants'
 
 const steps = 275
-const predictionHeight = 15
+const tickHeight = 15
 
 export interface SpectrogramProps {
   decoratedDecodedWav: DecoratedDecodedWavType
   problemAreas?: ProblemAreaType[] | null
   predictions?: number[][] | null
+  pointsOfInterest?: PointOfInterestType[] | null
 }
 
 export interface SpectrogramState {}
@@ -70,6 +75,7 @@ export default class Spectrogram extends React.Component<
     const ctx = this.refs.canvas.getContext('2d')
     decoratedDecodedWav.fftObj.fftsForAllChannels.forEach(
       (fftsForOneChannel, channelNum) => {
+        console.log('------', fftsForOneChannel.length)
         fftsForOneChannel.forEach((fft: Float32Array, i: number) => {
           const x = i
           const y = channelNum * fftSize
@@ -84,20 +90,24 @@ export default class Spectrogram extends React.Component<
         ctx.stroke()
       }
     )
-    this.renderPredictions()
+    this.renderPointsOfInterest()
   }
 
-  private renderPredictions(): void {
-    const { decoratedDecodedWav, predictions } = this.props
-    if (!predictions) return
+  private renderPointsOfInterest(): void {
+    const { pointsOfInterest, decoratedDecodedWav } = this.props
+    if (!pointsOfInterest) return
     const ctx = this.refs.canvas.getContext('2d')
     const baseHeight = fftSize * decoratedDecodedWav.numberOfChannels
-    predictions.forEach((maxes, channelNumber) => {
-      const y = baseHeight + channelNumber * predictionHeight
-      maxes.forEach((max, i) => {
-        ctx.fillStyle = this.getColor(max / 500)
-        ctx.fillRect(i, y, 1, 15)
-      })
+    const getAdjustedPoint = (time: number): number =>
+      44100 *
+      time *
+      decoratedDecodedWav.fftObj.fftsForAllChannels[0].length /
+      decoratedDecodedWav.length
+
+    pointsOfInterest.forEach(point => {
+      const y = baseHeight + point.channel * tickHeight
+      ctx.fillStyle = 'black'
+      ctx.fillRect(getAdjustedPoint(point.time), y, 1, 15)
     })
   }
 
@@ -105,7 +115,7 @@ export default class Spectrogram extends React.Component<
     const { decoratedDecodedWav, predictions } = this.props
     const baseHeight = fftSize * decoratedDecodedWav.numberOfChannels
     const height = !!predictions
-      ? baseHeight + predictionHeight * decoratedDecodedWav.numberOfChannels
+      ? baseHeight + tickHeight * decoratedDecodedWav.numberOfChannels
       : baseHeight
     console.log('baseHeight', baseHeight)
     console.log('height', height)

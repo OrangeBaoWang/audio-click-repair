@@ -11,14 +11,16 @@ import { overlap } from '../common/constants'
 import {
   getFFTsForAllChannels,
   getAveragedFfts,
-  findTop20
+  getTopPointsOfInterest
 } from '../common/helpers'
 import ProblemAreaFinder from '../problem-area-finder'
+import { PointOfInterestType } from '../common/type'
 
 interface IndexState {
   decoratedDecodedWav: DecoratedDecodedWavType | null
   problemAreas: ProblemAreaType[] | null
   predictions: number[][] | null
+  pointsOfInterest: PointOfInterestType[] | null
 }
 
 export default class extends React.Component<any, IndexState> {
@@ -27,7 +29,8 @@ export default class extends React.Component<any, IndexState> {
     this.state = {
       decoratedDecodedWav: null,
       problemAreas: null,
-      predictions: null
+      predictions: null,
+      pointsOfInterest: null
     }
   }
 
@@ -57,7 +60,9 @@ export default class extends React.Component<any, IndexState> {
           }
         }
         console.log(decoratedDecodedWav.channelData)
-        findTop20(decoratedDecodedWav.channelData)
+        const pointsOfInterest = getTopPointsOfInterest(
+          decoratedDecodedWav.channelData
+        )
         // const averagedFftsForAllChannels: Float32Array[][] = getAveragedFfts(
         //   decoratedDecodedWav.fftObj
         // )
@@ -69,7 +74,7 @@ export default class extends React.Component<any, IndexState> {
           decoratedDecodedWav
         )
 
-        this.setState({ decoratedDecodedWav, predictions })
+        this.setState({ decoratedDecodedWav, predictions, pointsOfInterest })
       })
     }
     reader.onabort = () => console.log('file reading was aborted')
@@ -79,12 +84,18 @@ export default class extends React.Component<any, IndexState> {
   }
 
   private renderSpectrogram(): JSX.Element | null {
-    const { decoratedDecodedWav, problemAreas, predictions } = this.state
+    const {
+      decoratedDecodedWav,
+      problemAreas,
+      predictions,
+      pointsOfInterest
+    } = this.state
     return decoratedDecodedWav && predictions ? (
       <Spectrogram
         decoratedDecodedWav={decoratedDecodedWav}
         problemAreas={problemAreas}
         predictions={predictions}
+        pointsOfInterest={pointsOfInterest}
       />
     ) : null
   }

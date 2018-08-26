@@ -19,3 +19,8 @@ export interface ProblemAreaType {
   end: number
   channel: number
 }
+
+export interface PointOfInterestType {
+  channel: number
+  time: number
+}
