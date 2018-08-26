@@ -84,7 +84,7 @@ export function getTopPointsOfInterest(
     const win: any = window
     win[`channel${i}`] = channel
     const len = channel.length
-    const topList = new TopList(9999999)
+    const topList = new TopList(10)
     const halfSpan = 3
     for (let i = 1 + halfSpan; i < len; i++) {
       if (i % 1000 === 0) console.log(i)

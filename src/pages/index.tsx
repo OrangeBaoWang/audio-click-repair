@@ -15,6 +15,7 @@ import {
 } from '../common/helpers'
 import ProblemAreaFinder from '../problem-area-finder'
 import { PointOfInterestType } from '../common/type'
+import * as dsp from 'dsp.js'
 
 interface IndexState {
   decoratedDecodedWav: DecoratedDecodedWavType | null
@@ -60,8 +61,20 @@ export default class extends React.Component<any, IndexState> {
           }
         }
         console.log(decoratedDecodedWav.channelData)
-        const pointsOfInterest = getTopPointsOfInterest(
-          decoratedDecodedWav.channelData
+        // const pointsOfInterest = getTopPointsOfInterest(
+        //   decoratedDecodedWav.channelData
+        // )
+        debugger
+        const filter = dsp.IIRFilter(dsp.DSP.HIGHPASS, 10000, 44100)
+        console.log('dsp', dsp)
+        console.log('dsp.DSP', dsp.DSP.HIGHPASS)
+        console.log('filter', filter)
+        decoratedDecodedWav.channelData = decoratedDecodedWav.channelData.map(
+          data => {
+            const signal = new Float32Array(data)
+            filter.process(signal)
+            return signal
+          }
         )
         // const averagedFftsForAllChannels: Float32Array[][] = getAveragedFfts(
         //   decoratedDecodedWav.fftObj
@@ -74,7 +87,7 @@ export default class extends React.Component<any, IndexState> {
           decoratedDecodedWav
         )
 
-        this.setState({ decoratedDecodedWav, predictions, pointsOfInterest })
+        this.setState({ decoratedDecodedWav, predictions })
       })
     }
     reader.onabort = () => console.log('file reading was aborted')
