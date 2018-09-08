@@ -20,3 +20,4 @@ Thank you so much to my friend and PhD student Anup Mishra for helping me use st
 
 -   make test.py file run automated tests and possibly write more
 -   make the algorithm for repair more targeted for the affected region (make repair_length as small as possible)
+-   have statsmodels not print out all the garbage and instead give a simple progress?

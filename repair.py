@@ -14,12 +14,12 @@ def interpolate_audio(x, bad_starting_sample):
     repair_end = int(bad_starting_sample + (repair_length / 2))
     start = repair_start - spacing
     end = repair_end + spacing
-    # plt.plot(x[start:end])  # --------
+    # plt.plot(x[start:end])
     buffer = x[start:end]
     repaired_buffer = get_better_buffer(buffer.tolist())
     x[start:end] = repaired_buffer
-    # plt.plot(x[start:end], linewidth=4.0)  # --------
-    # plt.show()  # --------
+    # plt.plot(x[start:end], linewidth=4.0)
+    # plt.show()
     return x
 
 
