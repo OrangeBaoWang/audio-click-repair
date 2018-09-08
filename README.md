@@ -15,3 +15,8 @@ After I discovered a long audio file that was corrupted by countless clicks, I t
 So I set out to automate the process in python. First I wrote some basic detection logic that applies a very heavy high pass filter then searches for any anomalies in the very little signal that is left after the filter. Second I wrote a basic repair algorithm using autoregression from the statsmodels lib. This is what the "Repair" tool in Audacity does essentially. Finally I wrote a basic command line tool to interface with the code.
 
 Thank you so much to my friend and PhD student Anup Mishra for helping me use statsmodels! Also thanks to Steve on the Audacity forums for helping me understand the issue better.
+
+### improvments
+
+-   make test.py file run automated tests and possibly write more
+-   make the algorithm for repair more targeted for the affected region (make repair_length as small as possible)
