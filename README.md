@@ -6,7 +6,7 @@ A tool that automates click detection and removal, specifically the clicks that 
 
 The input file can be stereo / mono and probably any common sampling rate but it MUST be in wav format.
 
-`main.py path/to/badFileInput.wav path/to/outputFile.wav`
+`python main.py path/to/badFileInput.wav path/to/outputFile.wav`
 
 ### background
 
@@ -21,3 +21,12 @@ Thank you so much to my friend and PhD student Anup Mishra for helping me use st
 -   make test.py file run automated tests and possibly write more
 -   make the algorithm for repair more targeted for the affected region (make repair_length as small as possible)
 -   have statsmodels not print out all the garbage and instead give a simple progress?
+-   speed optimizations?
+
+### example
+
+Here is a small sample of audio that has clicks in it: https://s3.amazonaws.com/josephpublic/aFewclicks.wav
+
+It's an excerpt from an interview: in one channel I'm saying "right right right..." and in the other the person is laughing. The clicks are audable in the background of both channels. You can see this in Audacity by going from a waveform view to spectrogram.
+
+Below is a "before and after" of the spectrograms: https://gyazo.com/03b228b9bc58d434bef9bed38a823642
