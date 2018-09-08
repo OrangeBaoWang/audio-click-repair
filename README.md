@@ -4,7 +4,7 @@ A tool that automates click detection and removal, specifically the clicks that 
 
 ### usage
 
-The input file can be stereo / mono and probably any sampling rate but must be in wav format.
+The input file can be stereo / mono and probably any common sampling rate but it MUST be in wav format.
 
 `main.py path/to/badFileInput.wav path/to/outputFile.wav`
 
