@@ -9,6 +9,8 @@ A tool that automates click detection and removal, specifically the clicks that 
 With python 3+ and pip installed:
 `pip install -U numpy scipy pandas statsmodels`
 
+##### run program
+
 The input file can be stereo / mono and probably any common sampling rate but it MUST be in wav format.
 
 `python main.py path/to/badFileInput.wav path/to/outputFile.wav`
