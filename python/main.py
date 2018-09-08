@@ -10,6 +10,8 @@ import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 
+import wave
+
 
 def normalizeIntArrayToOnes(int_array):
     number_of_bits = 0
@@ -34,8 +36,10 @@ channels_split = [contents[offset::num_channels]
                   for offset in range(num_channels)]
 
 output = []
-
+z = 0
 for channel in channels_split:
+    print('channel-----------', z)
+    z += 1
     problem_indices = find.find_important_indices(channel)
     for i in problem_indices:
         channel = interpolate.interpolate_audio(channel, i)
